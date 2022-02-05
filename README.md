@@ -54,7 +54,7 @@ Summary of challenge:
 5. File Handling
     - Started by reading the entire file in and making sure it would print properly
     - The next step was to print individual matches/a single line of results (two teams and two scores separated by a comma)
-    - Once this was achieved the teams an
+    
 ##
 6. Basic Logic Handling for Win, Lose, Draw
 ##
