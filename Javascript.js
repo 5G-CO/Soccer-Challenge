@@ -1,5 +1,5 @@
 const fs = require("fs");
-let regx = /\d+/g;
+let regx = / [0-9]/g;
 fs.readFile("sample-input.txt", "utf8", (error, data) => {
   if (error) {
     console.log(error);
@@ -11,7 +11,7 @@ fs.readFile("sample-input.txt", "utf8", (error, data) => {
   let points = {};
   let recordDays = 0;
   let matchDay = 0;
-
+  
   for (let i = 0; i < results.length; i++) {
     const record = results[i];
     if (recordIsNotValid(record)) continue;
@@ -21,6 +21,7 @@ fs.readFile("sample-input.txt", "utf8", (error, data) => {
     teams = record.split(",");
     scores = record.match(regx);
     // console.log(scores);
+    
     teams[0] = teams[0].replace(scores[0], "").trim();
     teams[1] = teams[1].replace(scores[1], "").trim();
     // console.log(teams[0],teams[1]);
@@ -30,11 +31,13 @@ fs.readFile("sample-input.txt", "utf8", (error, data) => {
       //team 0 won
       // console.log(teams[0]);
       points[teams[0]] = points[teams[0]] ? points[teams[0]] + 3 : 3;
+      points[teams[1]] = points[teams[1]] ? points[teams[1]] : 0;
     } else if (matchResult < 0) {
       //team 1 won
       // console.log(teams[1]);
 
       points[teams[1]] = points[teams[1]] ? points[teams[1]] + 3 : 3;
+      points[teams[0]] = points[teams[0]] ? points[teams[0]] : 0;
     } else {
       //draw
       points[teams[0]] = points[teams[0]] ? points[teams[0]] + 1 : 1;
@@ -56,7 +59,8 @@ fs.readFile("sample-input.txt", "utf8", (error, data) => {
 });
 
 recordIsNotValid = (record) => {
-  return record.match(regx).length !== 2 || !record.includes(",");
+  if (record.trim() === '') return true
+  return !record.includes(",");
 };
 
 printingResults = (points, matchDay) => {
@@ -73,6 +77,8 @@ printingResults = (points, matchDay) => {
   // console.log(highest, points);
    
   for (let index = 0; index < 3; index++) {
+
+    if (index >= highest.length) break;
     //  let teamScore = Object.entries(highest)[index];
     let teamName = highest[index];
     //  console.log(,  );
